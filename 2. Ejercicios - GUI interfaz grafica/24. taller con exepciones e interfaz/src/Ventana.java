@@ -1,13 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Locale;
 //Eventos
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 
-public class Ventana extends JFrame implements ActionListener, ItemListener{
+public class Ventana extends JFrame implements ActionListener{
     // ---------- Global vars ---------------- //
     //Array lists
     ArrayList<Pelicula> movies_available = new ArrayList<>();
@@ -46,9 +45,9 @@ public class Ventana extends JFrame implements ActionListener, ItemListener{
                                 "Extraterreste nace en Boyacá y se vuelve ciclista",
                                 2.1,
                                 Pelicula.Topic.Drama);
-    Pelicula p9 = new Pelicula("«El padrino» (1972)",
-                                "Pelicula de Rodolfo Hernandez capo de la mafia en Nueva York",
-                                4.5,
+    Pelicula p9 = new Pelicula("The Avergers",
+                                "Movie of Avergers in china town",
+                                2.5,
                                 Pelicula.Topic.Accion);
     Pelicula p10 = new Pelicula("La ciudad perdida",
                                 "Una persona se pierde en el cartucho",
@@ -60,7 +59,7 @@ public class Ventana extends JFrame implements ActionListener, ItemListener{
                                 Pelicula.Topic.Drama);
 
     // ---------- Variables globales gui ---------------- //
-    Container contenedor=getContentPane();
+    final Container contenedor;
     int ancho_ventana =400;
     int largo_ventana =450;
     JComboBox<String> combo1;
@@ -69,6 +68,10 @@ public class Ventana extends JFrame implements ActionListener, ItemListener{
     JPanel pp= new JPanel(), panel_factura=new JPanel();
     //Tamaño customizado para los TextField, JButton y JComboBox
     Dimension input_dimension = new Dimension((int)Math.floor(ancho_ventana*0.9),35);
+    JScrollPane scroll;
+    //------------ invoice
+    JScrollPane scroll2;
+    JTextArea textArea2;
 
 
     Ventana(){
@@ -94,7 +97,7 @@ public class Ventana extends JFrame implements ActionListener, ItemListener{
         pp.setVisible(true);
 
         //---------- Panel principal -------
-        JLabel label1  = new JLabel("Alquilar peliculas");
+        JLabel label1  = new JLabel("      Alquilar peliculas     ");
         label1.setFont(new Font("Segoe UI Black", 0, 24));
         pp.add(label1);
         
@@ -123,18 +126,22 @@ public class Ventana extends JFrame implements ActionListener, ItemListener{
             pp.add(combo1);
             //---------------------- llenar combo -----
         
-        textArea = new JTextArea();
-        textArea.setPreferredSize(new Dimension((int)Math.floor(ancho_ventana*0.9),175));
-        textArea.setBounds(200,280,100,40);
+        textArea = new JTextArea(12,31);
+        /*textArea.setPreferredSize(
+            new Dimension(
+                (int) Math.floor(input_dimension.getWidth())-20 , 
+                (int) Math.floor(input_dimension.getHeight()*6)
+                )
+            );*/
         textArea.setEditable(false);
         textArea.setFocusable(false);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        contenedor.add(textArea);
-        JScrollPane scroll=new JScrollPane(textArea);
+        pp.add(textArea);
+        scroll=new JScrollPane(textArea);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
-        contenedor.add(scroll);
+        pp.add(scroll);
 
         agregar_btn = new JButton("Agregar Pelicula");
         agregar_btn.addActionListener(this);
@@ -159,28 +166,83 @@ public class Ventana extends JFrame implements ActionListener, ItemListener{
 }
     @Override
     public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==agregar_btn){
+            //Search movie in the invetory
+            for (Pelicula m : movies_available) {
+                if(m.getName()==combo1.getSelectedItem()){
+                    movies_selected.add(m);
+                    break;
+                }
+            }
+            printMoviesInCart();
+        }
+        
         if(e.getSource()==terminar_btn){
            pp.setVisible(false);
+           genInvoice();
            panel_factura.setVisible(true);
        }
     }
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-        // TODO Auto-generated method stub
-    }
-    //Métodos adicionales
-/*
- * public String empleadosContratados(){
-        String cadena="";
-        for(Empleado emp: arr_empleados_vinculados){
-            cadena+="(+)"+emp.getNombre()+" id: "+emp.getCedula()+" | Rango: "+emp.getRango()+" | Salario: "+emp.getSalario()+"\n";
-        }
-        return cadena;
-    }
-    public void actualizarTabla(){
-        textArea.setText(empleadosContratados());
-    }
-    
- */
 
+    //Aditional methods
+    public String returnMoviesInCart(){
+            String str="";
+            for(Pelicula m: movies_selected){
+                str+="(+->)"+m.getName()+" Duracion: "+m.getLength()+" | Descripcion: "+m.getDescription()+" | Genero: "+m.getTopic()+"\n\n";
+            }
+            return str;
+        }
+    public void printMoviesInCart(){
+        textArea.setText(returnMoviesInCart());
+    }
+    public int totalCost(){
+        return movies_selected.size()*Pelicula.price;
+    }
+    public double totalLenght(){
+        double l=0.0;
+            for(Pelicula m: movies_selected){
+                l+=m.getLength();
+            }
+            return l;
+    }
+    public void genInvoice(){
+        JLabel invo_label1  = new JLabel("      Factura     ");
+        invo_label1.setFont(new Font("Segoe UI Black", 0, 24));
+        panel_factura.add(invo_label1);
+
+        JLabel invo_label2  = new JLabel("Estas fueron las peliculas seleccionadas");
+        panel_factura.add(invo_label2);
+
+        //............... List of movies
+        textArea2 = new JTextArea(returnMoviesInCart(),12,31);
+        textArea2.setEditable(false);
+        textArea2.setFocusable(false);
+        textArea2.setLineWrap(true);
+        textArea2.setWrapStyleWord(true);
+        panel_factura.add(textArea2);
+        scroll2=new JScrollPane(textArea2);
+        scroll2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scroll2.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        panel_factura.add(scroll2);
+        printMoviesInCart();
+         
+        JLabel invo_label3  = new JLabel("Datos finales");
+        panel_factura.add(invo_label3);
+        JLabel invo_label4  = new JLabel("Precio por cada pelicula: $1000");
+        panel_factura.add(invo_label4);
+        JLabel invo_label5  = new JLabel("Precio total peliculas alquiladas: $"+totalCost());
+        panel_factura.add(invo_label5);
+        JLabel invo_label6  = new JLabel("Duración total peliculas alquiladas: "+totalLenght()+"h");
+        panel_factura.add(invo_label6);
+
+    }
+    public void exceptions(){
+        try{
+            if(movies_selected.size()<1){
+                throw new Excepciones("Debes seleccionar al menos una pelicula")
+            }
+        }finally{
+
+        }
+    }
 }
