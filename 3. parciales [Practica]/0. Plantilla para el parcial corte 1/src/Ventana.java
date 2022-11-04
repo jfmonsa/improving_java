@@ -1,3 +1,7 @@
+/* Opcional 1, realizado por:
+ * Juan Felipe Monsalve Vargas -1006493078
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,42 +13,50 @@ import java.awt.event.ItemListener;
 
 public class Ventana extends JFrame implements ActionListener, ItemListener{
     // ---------- Global vars ---------------- //
-    ArrayList<Libro> arr_libros_inventario = new ArrayList<Libro>();
+    //Array lists
+    /*ArrayList<Libro> arr_libros_inventario = new ArrayList<Libro>();
     ArrayList<Libro> arr_libros_compra = new ArrayList<Libro>();
+    */
 
+    //Constructors
+    /*
+     * 
     LibroClasico l1 = new LibroClasico("El capital tomo 1", "Karl Marx", 125000, "1850 dc");
-    LibroClasico l2 = new LibroClasico("El capital tomo 2", "Karl Marx", 145000, "1850 dc");
-    LibroColombiano l3 =  new LibroColombiano("Cien años de soledad", "Gabo", 55000, LibroColombiano.RegionDelLibro.Caribe);
-    LibroColombiano l4 =  new LibroColombiano("La violencia en Colombia tomo 1", "German Guzman Campos tomo 1", 123000, LibroColombiano.RegionDelLibro.Bogota);
-    LibroColombiano l5 =  new LibroColombiano("La violencia en Colombia tomo 2", "German Guzman Campos tomo 1", 88000, LibroColombiano.RegionDelLibro.Bogota);
+     */
     // ---------- Global vars ---------------- //
 
-    // ---------- Global gui vars ---------------- //
-    Container contenedor;
-    //JPanel contenedor;
+    // ---------- Variables globales gui ---------------- //
+    Container contenedor=getContentPane();
     int ancho_ventana =400;
     int largo_ventana =450;
     JComboBox<String> combo1;
     JTextArea textArea;
     JButton btn_terminar, btn_agregar;
+    //Tamaño customizado para los TextField, JButton y JComboBox
     Dimension input_dimension = new Dimension((int)Math.floor(ancho_ventana*0.9),35);
 
-    public void fillBookArray(){
+    //llenar un combo con array
+    /*public void fillBookArray(){
         for(Libro lib: arr_libros_inventario){
             combo1.addItem(lib.getNombre());
         }
-    }
-    // ---------- Global gui vars ---------------- //
-    
+    }*/
+
+
+    //Llenar combo con Enum[]
+    /*
+     * Materias mat[]  = Materias.values();
+        for(Materias m: mat){
+            panel_docentes_combo.addItem(m.name());
+        }
+     */
+    // ---------- Variables globales gui ---------------- //
+
+
+
     Ventana(){
+        //Titulo
         super("Intefaz libros");
-        //adding items to combo
-        arr_libros_inventario.add(l1);
-        arr_libros_inventario.add(l2);
-        arr_libros_inventario.add(l3);
-        arr_libros_inventario.add(l4);
-        arr_libros_inventario.add(l5);
-        //adding items to combo
         //--------- Form settings -------
         contenedor=getContentPane();
         FlowLayout layout = new FlowLayout();
@@ -54,6 +66,9 @@ public class Ventana extends JFrame implements ActionListener, ItemListener{
         setBackground(Color.LIGHT_GRAY);
         setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+            //Si depronto hay JPanels
+            //JPanel panel_ppal, panel_docentes, panel_administrativo;
         //--------- Form settings -------
 
         //---------- Form elements -------
@@ -65,7 +80,7 @@ public class Ventana extends JFrame implements ActionListener, ItemListener{
         contenedor.add(label_combo1);
 
         combo1= new JComboBox<>();
-        fillBookArray();
+        //fillBookArray();
         combo1.setSelectedItem(1);
         combo1.setPreferredSize(input_dimension);
         contenedor.add(combo1);
@@ -97,45 +112,45 @@ public class Ventana extends JFrame implements ActionListener, ItemListener{
         contenedor.add(btn_terminar);
         //---------- Form elements -------
 
+        //-------- Si hay JPaneles ---------
+        /*
+         * panel_ppal = new JPanel(layout);
+            panel_ppal.setBackground(Color.CYAN);
+            panel_ppal.setBounds(0,0,ancho_ventana,largo_ventana);
+            this.add(panel_ppal);
+         */
+        //-------- Si hay JPaneles ---------
+
         //####################################################
         this.setVisible(true); 
-            //this always goes to the end, otherwise it doesn't work
         //#########################s###########################
-    }
+}
 
     @Override
     public void itemStateChanged(ItemEvent e) {
-        // TODO Auto-generated method stub
+        //toca agregar: elem.addItemListener(this)
+        /*
+         * if(e.getSource()==elm){
+         *      //hacer_algo()
+         * }
+         */
         
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        //Adding books
+        //Adding elements
+        /*
         if(e.getSource()==btn_agregar){
-            //--------- adding books -------
-            String seleccionado = (String)combo1.getSelectedItem();
-            System.out.println(seleccionado);
-            if(l1.getNombre()==seleccionado){
-                arr_libros_compra.add(l1);
-            }
-            else if(l2.getNombre()==seleccionado){
-                arr_libros_compra.add(l2);
-            }
-            else if(l3.getNombre()==seleccionado){
-                arr_libros_compra.add(l3);
-            }
-            else if(l4.getNombre()==seleccionado){
-                arr_libros_compra.add(l4);
-            }
-            else if(l5.getNombre()==seleccionado){
-                arr_libros_compra.add(l5);
-            }
-        actualizarTabla();
+            .
+            .
+            .
+            actualizarTabla();
         }
-        //--------- adding books -------
+         */
 
-        //Terminando la compra
+        //Finalize
+        /*
         if(e.getSource()==btn_terminar){
             //Validación
             if(arr_libros_compra.size()==0){
@@ -144,11 +159,12 @@ public class Ventana extends JFrame implements ActionListener, ItemListener{
                 finalPrice();
             }
         }
-        //Terminando la compra
-        
+         */
     }
 
-    public String textoLibrosEnCarrito(){
+    //Métodos adicionales
+    /*
+     *     public String textoLibrosEnCarrito(){
         String cadena="";
         for(Libro lib: arr_libros_compra){
             cadena+="(+)"+lib.getNombre()+" by: "+lib.getAutor()+" | id: "+lib.getId()+"\n";
@@ -159,6 +175,7 @@ public class Ventana extends JFrame implements ActionListener, ItemListener{
         textArea.setText(textoLibrosEnCarrito());
     }
 
+    
     public void finalPrice(){
         int final_price=0;
         for(Libro lib: arr_libros_compra){
@@ -169,4 +186,5 @@ public class Ventana extends JFrame implements ActionListener, ItemListener{
                                     "Compra exitosa :D",
                                     JOptionPane.INFORMATION_MESSAGE);
     }
+     */
 }
