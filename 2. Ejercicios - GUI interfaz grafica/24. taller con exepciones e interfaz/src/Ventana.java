@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Locale;
 //Eventos
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -236,7 +235,7 @@ public class Ventana extends JFrame implements ActionListener{
         panel_factura.add(invo_label6);
 
     }
-    public void exceptions(){
+    /*public void exceptions(){
         try{
             if(movies_selected.size()<1){
                 throw new Excepciones("Debes seleccionar al menos una pelicula")
@@ -244,5 +243,5 @@ public class Ventana extends JFrame implements ActionListener{
         }finally{
 
         }
-    }
+    }*/
 }

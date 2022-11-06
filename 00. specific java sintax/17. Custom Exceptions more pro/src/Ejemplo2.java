@@ -16,7 +16,6 @@ public class Ejemplo2 {
                 linea = scanner.nextLine();
                 int dividendo = Integer.parseInt(linea);
                 System.out.println("La division es" + (numero/dividendo));
-                
                 break;
             }catch(NumberFormatException e){
                 System.out.println("Ingresa numeros cabezon!");
