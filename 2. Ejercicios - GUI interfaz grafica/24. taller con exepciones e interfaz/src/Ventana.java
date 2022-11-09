@@ -178,7 +178,11 @@ public class Ventana extends JFrame implements ActionListener{
         
         if(e.getSource()==terminar_btn){
            pp.setVisible(false);
-           genInvoice();
+            try {
+                exceptions();
+            } catch (Excepciones e1) {
+                e1.printStackTrace();
+            }
            panel_factura.setVisible(true);
        }
     }
@@ -204,7 +208,7 @@ public class Ventana extends JFrame implements ActionListener{
             }
             return l;
     }
-    public void genInvoice(){
+    public void genInvoice() throws Excepciones{
         JLabel invo_label1  = new JLabel("      Factura     ");
         invo_label1.setFont(new Font("Segoe UI Black", 0, 24));
         panel_factura.add(invo_label1);
@@ -229,19 +233,41 @@ public class Ventana extends JFrame implements ActionListener{
         panel_factura.add(invo_label3);
         JLabel invo_label4  = new JLabel("Precio por cada pelicula: $1000");
         panel_factura.add(invo_label4);
-        JLabel invo_label5  = new JLabel("Precio total peliculas alquiladas: $"+totalCost());
+        int total_cost=totalCost();
+        try{
+            if(movies_selected.size()==7){
+                total_cost-=5000;
+                throw new Excepciones("Por alquilar 7 peliculas le vamos a dar un descuento de $5000", JOptionPane.INFORMATION_MESSAGE);
+            }
+        }finally{}
+
+        JLabel invo_label5  = new JLabel("Precio total peliculas alquiladas: $"+total_cost);
         panel_factura.add(invo_label5);
         JLabel invo_label6  = new JLabel("Duración total peliculas alquiladas: "+totalLenght()+"h");
         panel_factura.add(invo_label6);
 
     }
-    /*public void exceptions(){
+    public void exceptions() throws Excepciones{
         try{
             if(movies_selected.size()<1){
-                throw new Excepciones("Debes seleccionar al menos una pelicula")
+                throw new Excepciones("Error: Debes seleccionar al menos una pelicula");
+            }else if(movies_selected.size()>10){
+                throw new Excepciones("Error: No es normal alquilar tantas pelicula, ojo");
+            }else if(areAllRomantic()){
+                throw new Excepciones("Error: depronto se nos pone triste por idealizar la vida xD");
+            }
+            else{
+                genInvoice();
             }
         }finally{
 
         }
-    }*/
+    }
+    public boolean areAllRomantic(){
+        boolean answ=true;
+        for (Pelicula mov : movies_selected) {
+            if(mov.getTopic()!=Pelicula.Topic.Romance) answ=false;
+        }
+        return answ;
+    }
 }
