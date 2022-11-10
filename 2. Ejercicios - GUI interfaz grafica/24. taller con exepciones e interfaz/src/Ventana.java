@@ -180,10 +180,13 @@ public class Ventana extends JFrame implements ActionListener{
            pp.setVisible(false);
             try {
                 exceptions();
+                panel_factura.setVisible(true);
             } catch (Excepciones e1) {
                 e1.printStackTrace();
+                pp.setVisible(true);
+                panel_factura.setVisible(false);
             }
-           panel_factura.setVisible(true);
+           
        }
     }
 
