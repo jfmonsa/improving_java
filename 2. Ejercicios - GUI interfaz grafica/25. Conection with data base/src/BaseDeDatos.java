@@ -19,7 +19,7 @@ public class BaseDeDatos {
         try{
             conexion = DriverManager.getConnection(
                     "jdbc:postgresql://localhost:5432/interactiva", 
-                    "root", "123456789");
+                    "postgres", "123456789");
         }catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
