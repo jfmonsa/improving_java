@@ -1,18 +1,14 @@
-## Getting Started
+# Wrapper class
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+provides a way to use primitive data types as reference data types, reference data types contain useful methods, can be used with collections (ex: ArrayList)
 
-## Folder Structure
+In Java, non-primitive data types are known as reference types. In other words, a variable of class type is called reference data type. It contains the address (or reference) of dynamically created objects. For example, if Demo is a class and we have created its object d, then the variable d is known as a reference type.
 
-The workspace contains two folders by default, where:
+It refers to objects. It is not pre-defined. It is created by the programmer if required. The reference types hold the references of objects. All reference types are a subclass of type java.lang.Object. It provides access to the objects stored in the memory.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
-
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+| Primitive data type | Wrapper class |
+| ------------------- | ------------- |
+| `bolean`            | `Boolean`     |
+| `char`              | `Character`   |
+| `int`               | `Integer`     |
+| `double`            | `Double`      |
