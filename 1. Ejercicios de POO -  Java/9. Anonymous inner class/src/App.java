@@ -2,7 +2,7 @@ public class App{
     public static void main(String[] args) {
      
      /*anonymous class = an inner class without a name
-             only a single object is created from one
+            only a single object is created from one
             The object may have “extras” or "changes"
            and no need to create a separate innerclass
            when it only need it once.

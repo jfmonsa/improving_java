@@ -34,7 +34,4 @@ public class Libro{
     public void setAutores(String[] autores) {
         this.autores = autores;
     }
-
-    
-
 }

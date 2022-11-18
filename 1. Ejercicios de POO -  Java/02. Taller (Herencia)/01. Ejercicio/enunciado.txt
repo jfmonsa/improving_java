@@ -1,3 +1,0 @@
-Ejercicio 1 (este entre todos, este no es calificable): Hacer una clase llamada Electrodoméstico. Un electrodoméstico tiene un voltaje, precio y materiales de los que esta echo. Existen computadores que son electrodomésticos, pero también tienen marca, velocidad del procesador y pulgadas de la pantalla. También existen lavadoras que también son electrodomésticos, y tienen tamaño en litros y si tiene o no secadora. 
-Crear 3 computadoras y lavadoras y meterlas en una lista. Ahora deben calcular el precio de todos los electrodomésticos de la lista usando un ciclo for.
-Usar herencia y enums
