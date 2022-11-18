@@ -6,8 +6,6 @@ In Java, non-primitive data types are known as reference types. In other words, 
 
 It refers to objects. It is not pre-defined. It is created by the programmer if required. The reference types hold the references of objects. All reference types are a subclass of type java.lang.Object. It provides access to the objects stored in the memory.
 
-<center>
-
 | Primitive data type | Wrapper class |
 | ------------------- | ------------- |
 | `bolean`            | `Boolean`     |
@@ -15,7 +13,6 @@ It refers to objects. It is not pre-defined. It is created by the programmer if 
 | `int`               | `Integer`     |
 | `double`            | `Double`      |
 
-</center>
 ## Other examples of reference types:
 
 -  String, ArrayList, Annotations, Interface, Enumeration
