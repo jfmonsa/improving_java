@@ -6,7 +6,7 @@ For this course the laguage for work was Java
 
 # Main Topics
 
--  Basic sintax
+-  Basic Java sintax
 -  OOP paradigm review
 -  Interfaces with Java Swing and AWT
 -  Basic CRUD with postgresql
