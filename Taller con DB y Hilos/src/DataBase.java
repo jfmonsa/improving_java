@@ -9,54 +9,72 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-public class BaseDeDatos {
-    Connection conexion=null;
+public abstract class DataBase {
+    private Connection connection;
 
-    public BaseDeDatos(){
+
+    // ----------------------- Setters & getters -----------------------
+    public void setConnection(Connection connection) {
         //Conection with the DB
         try{
-            conexion = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/interactiva", 
-                    "postgres", "123456789");
-        }catch (SQLException e) {
-            // TODO Auto-generated catch block
+            this.connection = DriverManager.getConnection(
+                "jdbc:postgresql://localhost:5432/littleBoard", 
+                "postgres", "123456789");
+            }catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    public Connection getConnection() {
+        return connection;
+    }
+    // ----------------------- Setters & getters -----------------------
+
+    public void select(){
+        try {
+            Statement statement = connection.createStatement();
+            String _query = "SELECT col1, col2, col3 FROM public.littleBoardRegister;";
+            ResultSet result = statement.executeQuery(_query);
+            DefaultTableModel tableModel = new DefaultTableModel();
+            tableModel.addColumn("col1");
+            tableModel.addColumn("col2");
+            tableModel.addColumn("col3");
+            
+            while(result.next()){
+                Boolean _col1 = result.getBoolean(1);
+                Boolean _col2 = result.getBoolean(2);
+                Boolean _col3 = result.getBoolean(3);
+
+                Object [] row = new Object [3];
+                row[0] = _col1;
+                row[1] = _col2;
+                row[2] = _col3;
+                tableModel.addRow(row);
+            }
+
+            JTable table = new JTable(tableModel);
+            JScrollPane scroll = new JScrollPane(table);
+            JOptionPane.showMessageDialog(null,scroll);
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
-    public void Consultar(){
-        try {
-            Statement statement = conexion.createStatement();
-            String consulta = "SELECT codigo, nombre, edad, como_me_cae FROM public.estudiantes ";
-            ResultSet resultado = statement.executeQuery(consulta);
-            DefaultTableModel modelo = new DefaultTableModel();
-            modelo.addColumn("Codigo");
-            modelo.addColumn("Nombre");
-            modelo.addColumn("Edad");
-            modelo.addColumn("Me cae bien?");
-            
-            while(resultado.next()){
-                String codigo = resultado.getString(1);
-                String nombre = resultado.getString(2);
-                int edad = resultado.getInt(3);
-                boolean como_me_cae = resultado.getBoolean(4);
-                Object [] fila = new Object [4];
-                fila[0] = codigo;
-                fila[1] = nombre;
-                fila[2] = edad;
-                fila[3] = como_me_cae;
-                modelo.addRow(fila);
-                System.out.println(edad);
-            }
-            JTable tabla = new JTable(modelo);
-            JScrollPane barra = new JScrollPane(tabla);
-            JOptionPane.showMessageDialog(null,barra);
+}
+
+public void insert(){
+        try {      
+            Statement statement = connection.createStatement();
+            String query = "INSERT INTO public.littleBoardRegister("+
+                "nombre, edad, como_me_cae, codigo)" +
+                "VALUES ('"+nombre+"', "+edad+", "+comoMeCae+", '"+codigo+"');";
+            statement.executeUpdate(consulta);
+                    
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        }        
     }
+/*
 
     public void insertar(String codigo, String nombre,
     int edad, boolean comoMeCae){
@@ -106,3 +124,4 @@ public class BaseDeDatos {
     }
 
 }
+*/
