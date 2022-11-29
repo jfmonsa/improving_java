@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Arrays;
 
@@ -70,7 +69,7 @@ public class Board extends DataBase {
 
         public Boolean[][] fillWithFalseMatrix(Boolean[][] matrix) {
             for (int i = 0; i < matrix.length; i++) {
-                for (int j = 0; j < matrix[0].length; j++) {
+                for (int j = 0; j < matrix[i].length; j++) {
                     matrix[i][j] = false;
                 }
             }
@@ -78,70 +77,74 @@ public class Board extends DataBase {
         }
 
         /*
-         * genRandomMatrixCoordinates():
-         * The below method no repeated random coordinates for the matrix, for located
-         * the figures in the board randomly
+         * The below method generates a random coordinate
          */
-        public Boolean equalCoordinates(ArrayList<int[]> coordinatesArr) {
-            boolean areEqual = false;
-            int arrSize = coordinatesArr.size();
-
-            for (int k = 0; k < arrSize; k++) {
-                for (int i = 0; i < arrSize; i++) {
-                    if (Arrays.equals(coordinatesArr.get(i), coordinatesArr.get(k)) && i != k) {
-                        areEqual = true;
-                    }
-                }
-            }
-            return areEqual;
-        }
-
         public int[] randomCoordinate() {
+            // int rand = new Random().nextInt(3); other way is: r.nextInt(high-low)
             int x1 = new Random().nextInt(3);
             int y1 = new Random().nextInt(3);
             int[] cord = { x1, y1 };
             return cord;
         }
 
-        public ArrayList<int[]> genRandomMatrixCoordinates() {
-            ArrayList<int[]> coordinatesArr = new ArrayList<>();
+        /*
+         * fillingFiguresInMatrixInRandCoord():
+         * The below method fill the matrix with true in random coordinates
+         */
+        public Boolean[][] fillingFiguresInMatrixInRandCoord(Boolean[][] matrix, int numOfcoordinates) {
+            // Initializing the array of matrix coordinates
+            int[][] arrCoordinates = new int[1][numOfcoordinates];
 
-            coordinatesArr.add(this.randomCoordinate()); // Setting the first point
-            if(!this.equalCoordinates())
+            // Filling with random coordinates for the number of figures
+            for (int i = 0; i < arrCoordinates.length; i++) {
+                arrCoordinates[i] = randomCoordinate();
+            }
+
+            // Change coordinates if are repeated
+            for (int actualCoordIndex = 0; actualCoordIndex < arrCoordinates.length; actualCoordIndex++) {
+                for (int i = 0; i < arrCoordinates.length; i++) {
+                    while (actualCoordIndex != i
+                            && Arrays.equals(arrCoordinates[actualCoordIndex], arrCoordinates[i])) {
+                        arrCoordinates[i] = randomCoordinate();
+                    }
+                }
+            }
+
+            // Filling the matrix with true in the coordinates of the arrCoordinates
+            for (int[] coord : arrCoordinates) {
+                matrix[coord[0]][coord[1]] = true;
+            }
+            return matrix;
         }
 
-        public void insertFigures(int numberOfFigures) {
+        public void insertFigures(int opc) {
             // The matrix represents a 3x3 board
             Boolean[][] matrixBoard = new Boolean[3][3];
 
-            switch (numberOfFigures) {
+            switch (opc) {
                 case 1:
-                    fillWithFalseMatrix(matrixBoard);
-                    // Coordinated represents an element (i,j) of the matrixBoard
-                    int[][] arrCoordinates = new int[2][2];
-                    // Array that stored the coordinates
-                    int[] coordinate = new int[2];
-
+                    matrixBoard = fillWithFalseMatrix(matrixBoard);
+                    matrixBoard = fillingFiguresInMatrixInRandCoord(matrixBoard, 2);
+                    insertFiguresInDB(matrixBoard);
                     break;
                 case 2:
-
-            }
-
-            int pos1 = new Random().nextInt(3); // int rand = new Random().nextInt(3); other way is: r.nextInt(high-low)
-                                                // +
-                                                // low;
-            int pos2 = rand.nextInt(9 - 1) + 1;
-            while (pos1 == pos2) {
-                pos2 = rand.nextInt(9 - 1) + 1;
+                    fillWithFalseMatrix(matrixBoard);
+                    matrixBoard = fillWithFalseMatrix(matrixBoard);
+                    matrixBoard = fillingFiguresInMatrixInRandCoord(matrixBoard, 4);
+                    insertFiguresInDB(matrixBoard);
+                    break;
+                case 3:
+                    // Filling all fields of the board with true
+                    for (int i = 0; i < matrixBoard.length; i++) {
+                        for (int j = 0; j < matrixBoard[i].length; j++) {
+                            matrixBoard[i][j] = true;
+                        }
+                    }
+                    insertFiguresInDB(matrixBoard);
+                    break;
             }
 
         }
     }
 
 }
-/*
- * Valor 1: 2 Figuras
- * ii. Valor 2: 4 Figuras
- * iii. Valor 3: 9 Figuras
- * 
- */

@@ -12,24 +12,24 @@ import javax.swing.table.DefaultTableModel;
 public abstract class DataBase {
     private Connection connection;
 
-
     // ----------------------- Setters & getters -----------------------
     public void setConnection(Connection connection) {
-        //Conection with the DB
-        try{
+        // Conection with the DB
+        try {
             this.connection = DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/littleBoard", 
-                "postgres", "123456789");
-            }catch (SQLException e) {
-                e.printStackTrace();
-            }
+                    "jdbc:postgresql://localhost:5432/littleBoard",
+                    "postgres", "123456789");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+    }
+
     public Connection getConnection() {
         return connection;
     }
     // ----------------------- Setters & getters -----------------------
 
-    public void select(){
+    public void select() {
         try {
             Statement statement = connection.createStatement();
             String _query = "SELECT col1, col2, col3 FROM public.littleBoardRegister;";
@@ -38,13 +38,13 @@ public abstract class DataBase {
             tableModel.addColumn("col1");
             tableModel.addColumn("col2");
             tableModel.addColumn("col3");
-            
-            while(result.next()){
+
+            while (result.next()) {
                 Boolean _col1 = result.getBoolean(1);
                 Boolean _col2 = result.getBoolean(2);
                 Boolean _col3 = result.getBoolean(3);
 
-                Object [] row = new Object [3];
+                Object[] row = new Object[3];
                 row[0] = _col1;
                 row[1] = _col2;
                 row[2] = _col3;
@@ -53,75 +53,46 @@ public abstract class DataBase {
 
             JTable table = new JTable(tableModel);
             JScrollPane scroll = new JScrollPane(table);
-            JOptionPane.showMessageDialog(null,scroll);
+            JOptionPane.showMessageDialog(null, scroll);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-}
-
-public void insert(){
-        try {      
+    public void insertFiguresInDB(Boolean[][] matrix) {
+        try {
             Statement statement = connection.createStatement();
-            String query = "INSERT INTO public.littleBoardRegister("+
-                "nombre, edad, como_me_cae, codigo)" +
-                "VALUES ('"+nombre+"', "+edad+", "+comoMeCae+", '"+codigo+"');";
-            statement.executeUpdate(consulta);
-                    
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }        
-    }
-/*
 
-    public void insertar(String codigo, String nombre,
-    int edad, boolean comoMeCae){
-        try {      
-            Statement statement = conexion.createStatement();
-            String consulta = "INSERT INTO public.estudiantes("+
-                "nombre, edad, como_me_cae, codigo)" +
-                "VALUES ('"+nombre+"', "+edad+", "+comoMeCae+", '"+codigo+"');";
-            statement.executeUpdate(consulta);
-                    
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }        
-    }
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < matrix[i].length; j += 3) {
+                    String query = "INSERT INTO public.littleBoardRegister(" +
+                            "col1, col2, col3)" +
+                            "VALUES (" + String.valueOf(matrix[i][j]) + ", " + String.valueOf(matrix[i][j + 1]) + ", "
+                            + String.valueOf(matrix[i][j + 2]) + ");";
+                    statement.executeUpdate(query);
+                }
+            }
 
-    public void actualizar(String codigo, String nombre,
-    int edad, boolean comoMeCae){
-        try {
-            Statement statement = conexion.createStatement();
-            String consulta = "UPDATE public.estudiantes " +
-            "SET nombre='"+nombre+"', edad="+edad+", como_me_cae="+comoMeCae +
-            " WHERE codigo='"+codigo+"'";
-            System.out.println(consulta);
-            statement.executeUpdate(consulta);
-                    
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-            
     }
-
-    public void eliminar(String codigo){
-        try {
-            Statement statement = conexion.createStatement();
-            String consulta = "DELETE FROM public.estudiantes " +
-            "WHERE codigo='"+codigo+"'";
-            System.out.println(consulta);
-            statement.executeUpdate(consulta);
-                    
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-            
-    }
-
 }
-*/
+/*
+ * public void actualizar(String codigo, String nombre,
+ * int edad, boolean comoMeCae){
+ * try {
+ * Statement statement = conexion.createStatement();
+ * String consulta = "UPDATE public.estudiantes " +
+ * "SET nombre='"+nombre+"', edad="+edad+", como_me_cae="+comoMeCae +
+ * " WHERE codigo='"+codigo+"'";
+ * System.out.println(consulta);
+ * statement.executeUpdate(consulta);
+ * 
+ * } catch (SQLException e) {
+ * // TODO Auto-generated catch block
+ * e.printStackTrace();
+ * }
+ * 
+ * }
+ */
