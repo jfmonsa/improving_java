@@ -20,6 +20,13 @@ public abstract class DataBase {
         }
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
     // ----------------------- Setters & getters -----------------------
 
     public void select() {
@@ -42,44 +49,35 @@ public abstract class DataBase {
     }
 
     public void insertFiguresInDB(Boolean[][] matrix) {
-        // If is the first configuration
-        if (Board.getNumberOfBoardsCreated() < 1) {
-            try {
-                Statement statement = DataBase.connection.createStatement();
+        try {
+            Statement statement = DataBase.connection.createStatement();
+            String query = "";
+            // If is the first configuration
+            if (Board.getNumberOfBoardsCreated() < 1) {
+                query = "INSERT INTO public.littleBoardRegister(" +
+                        "numberOfFigures, secondsToAppear, secondsToDisappear, typeOfFigures)" +
+                        "VALUES ("
+                        + String.valueOf(board.getNumberOfFigures()) + ", "
+                        + String.valueOf(board.getSecondsToAppear()) + ", " +
+                        String.valueOf(board.getSecondsToDisappear()) + ", " +
+                        String.valueOf(board.getTypeOfFigures()) +
+                        ");";
 
-                for (int i = 0; i < matrix.length; i++) {
-                    for (int j = 0; j < matrix[i].length; j += 3) {
-                        String query = "INSERT INTO public.littleBoardRegister(" +
-                                "col1, col2, col3)" +
-                                "VALUES (" + String.valueOf(matrix[i][j]) + ", " + String.valueOf(matrix[i][j + 1])
-                                + ", "
-                                + String.valueOf(matrix[i][j + 2]) + ");";
-                        statement.executeUpdate(query);
-                    }
-                }
-
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+            // If there is already a configuration
+            else {
+                query = "UPDATE public.estudiantes " +
+                        "SET " +
+                        "numberOfFigures=" + String.valueOf(board.getNumberOfFigures()) + "," +
+                        "secondsToAppear=" + String.valueOf(board.getSecondsToAppear()) + "," +
+                        "secondsToDisappear=" + String.valueOf(board.getSecondsToDisappear()) + "," +
+                        "typeOfFigures =" + String.valueOf(board.getTypeOfFigures())
+                        + ";";
+            }
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
     }
 }
-/*
- * public void actualizar(String codigo, String nombre,
- * int edad, boolean comoMeCae){
- * try {
- * Statement statement = conexion.createStatement();
- * String consulta = "UPDATE public.estudiantes " +
- * "SET nombre='"+nombre+"', edad="+edad+", como_me_cae="+comoMeCae +
- * " WHERE codigo='"+codigo+"'";
- * System.out.println(consulta);
- * statement.executeUpdate(consulta);
- * 
- * } catch (SQLException e) {
- * // TODO Auto-generated catch block
- * e.printStackTrace();
- * }
- * 
- * }
- */

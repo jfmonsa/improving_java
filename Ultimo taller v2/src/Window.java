@@ -3,6 +3,8 @@ import java.awt.*;
 // Eventos
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+//Delay the figures
+import javax.swing.Timer;
 
 public class Window extends DataBase implements ActionListener {
 
@@ -10,6 +12,7 @@ public class Window extends DataBase implements ActionListener {
     // ------ gui general variables--------
     int win_width = 400;
     int win_height = 400;
+    Thread thread;
 
     JButton btn_saveConfigs;
     // Custom size for TextField, JButton y JComboBox
@@ -25,7 +28,10 @@ public class Window extends DataBase implements ActionListener {
 
     // ------ gui board's variables--------
     JPanel board_panel;
+    JPanel board_panel_figures;
     JButton btn_exitBoard;
+    Board board = getBoard();
+    Boolean[][] matrixBoard = Board.getMatrixBoard();
     // ------ gui board's variables--------
 
     // ---------- Constructor---------------
@@ -109,18 +115,19 @@ public class Window extends DataBase implements ActionListener {
 
         // -------- Board panel ----------
 
-        board_panel = new JPanel(new FlowLayout()); // this panel displays the board
+        board_panel = new JPanel(new FlowLayout(FlowLayout.CENTER)); // this panel displays the board
         board_panel.setBackground(bg_color);
         frame.add(board_panel);
         // --- Inner board's pannels
         // -- Figure shower
-        JPanel board_panel_figures = new JPanel(new GridLayout(3, 3, 2, 2));
+        board_panel_figures = new JPanel(new GridLayout(3, 3, 2, 2));
         board_panel_figures.setBackground(Color.CYAN);
         board_panel_figures.setVisible(true);
         board_panel.add(board_panel_figures);
+
         // -- Figure shower
         // -- exit button panel
-        JPanel board_panel_exitbtn = new JPanel(new FlowLayout());
+        JPanel board_panel_exitbtn = new JPanel(new FlowLayout(FlowLayout.CENTER));
         board_panel_exitbtn.setBackground(bg_color);
         board_panel_exitbtn.setVisible(true);
         board_panel.add(board_panel_exitbtn);
@@ -145,13 +152,86 @@ public class Window extends DataBase implements ActionListener {
         if (e.getSource() == btn_saveConfigs) {
             config_panel.setVisible(false);
             board_panel.setVisible(true);
+            rePaint();
 
         }
+        /*
+         * import javax.swing.*;
+         * import java.awt.*;
+         * 
+         * public class Main {
+         * public static void main(String[] args) {
+         * JFrame frame = new JFrame();
+         * frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         * frame.setVisible(true);
+         * frame.setSize(600, 400);
+         * 
+         * JPanel panel = new JPanel() {
+         * 
+         * @Override
+         * public void paintComponent(Graphics g) {
+         * super.paintComponent(g);
+         * g.setColor(Color.BLUE);
+         * g.fillRect(0, 0, 100, 100);
+         * }
+         * };
+         * frame.add(panel);
+         * 
+         * // Graphics g = panel.getGraphics();
+         * // g.setColor(Color.BLUE);
+         * // g.fillRect(0, 0, 100, 100);
+         * 
+         * frame.validate(); // because you added panel after setVisible was called
+         * frame.repaint(); // because you added panel after setVisible was called
+         * }
+         * }
+         */
+
+        //
         // Hide the board and return to configs
         if (e.getSource() == btn_exitBoard) {
             board_panel.setVisible(false);
             config_panel.setVisible(true);
+            thread.stop();
 
+        }
+    }
+
+    public void delayFigures(int opc) {
+        /*
+         * This method delay the figure appears
+         * Example of a rando int in a range
+         * int rand = (int)(Math.random() * (max - min + 1)) + min;
+         */
+        try {
+            switch (opc) {
+                case 1: // 0 a 5
+                    Thread.sleep((long) (1000 * ((Math.random() * 6) + 1)));
+                    break;
+                case 2: // 5 a 10
+                    Thread.sleep((long) (1000 * ((Math.random() * 6) + 5)));
+                    break;
+                case 3: // 5
+                    Thread.sleep(5 * 1000);
+                    break;
+            }
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void rePaint(Graphics g) {
+        for (int i = 0; i < matrixBoard.length; i++) {
+            for (int j = 0; j < matrixBoard[i].length; j++) {
+                // If board matrix is set true in element i,j
+                if (matrixBoard[i][j]) {
+                    g.setColor(Color.red);
+                } else {
+                    g.setColor(Color.white);
+                }
+
+            }
         }
     }
 
