@@ -152,7 +152,7 @@ public class Window extends DataBase implements ActionListener {
         if (e.getSource() == btn_saveConfigs) {
             config_panel.setVisible(false);
             board_panel.setVisible(true);
-            rePaint();
+            // rePaint();
 
         }
         /*
