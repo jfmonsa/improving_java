@@ -88,13 +88,13 @@ public class Ventana extends JFrame implements ActionListener {
         }
 
         public void stopIn30Secs() {
-            if (contadorSegundos > 30) {
+            if (contadorSegundos == 30) {
 
                 comprar_rbtn.setEnabled(false);
                 alquilar_rbtn.setEnabled(false);
                 agregar_btn.setEnabled(false);
                 terminar_btn.setEnabled(false);
-                combo1.setEditable(false);
+                combo1.setEnabled(false);
                 JOptionPane.showMessageDialog(contenedor,
                         "Han pasado 30 segundos y no has agregado nada, ya no puedes :D", "Upss",
                         JOptionPane.INFORMATION_MESSAGE);
