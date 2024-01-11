@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 public class Archivo {
 
     public void prueba() {
-
+        // Método viejo
         try {
             File archivito = new File("materias.txt");
             FileReader lector = new FileReader(archivito);
@@ -34,6 +34,7 @@ public class Archivo {
         }
     }
 
+    // Metono nuevo
     public String buscarTraduccion(String palabraBuscar, String idioma) {
         String traduccion = "No se encuentra la traduccion";
 

@@ -10,22 +10,22 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class BaseDeDatos {
-    Connection conexion=null;
+    Connection conexion = null;
 
-    public BaseDeDatos(){
-        //Conection with the DB
-        try{
+    public BaseDeDatos() {
+        // Conection with the DB
+        try {
             conexion = DriverManager.getConnection(
-                    "jdbc:postgresql://localhost:5432/interactiva", 
+                    "jdbc:postgresql://localhost:5432/interactiva",
                     "postgres", "123456789");
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
     }
 
-    public void Consultar(){
+    public void Consultar() {
         try {
             Statement statement = conexion.createStatement();
             String consulta = "SELECT codigo, nombre, edad, como_me_cae FROM public.estudiantes ";
@@ -35,13 +35,13 @@ public class BaseDeDatos {
             modelo.addColumn("Nombre");
             modelo.addColumn("Edad");
             modelo.addColumn("Me cae bien?");
-            
-            while(resultado.next()){
+
+            while (resultado.next()) {
                 String codigo = resultado.getString(1);
                 String nombre = resultado.getString(2);
                 int edad = resultado.getInt(3);
                 boolean como_me_cae = resultado.getBoolean(4);
-                Object [] fila = new Object [4];
+                Object[] fila = new Object[4];
                 fila[0] = codigo;
                 fila[1] = nombre;
                 fila[2] = edad;
@@ -51,7 +51,7 @@ public class BaseDeDatos {
             }
             JTable tabla = new JTable(modelo);
             JScrollPane barra = new JScrollPane(tabla);
-            JOptionPane.showMessageDialog(null,barra);
+            JOptionPane.showMessageDialog(null, barra);
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -59,50 +59,49 @@ public class BaseDeDatos {
     }
 
     public void insertar(String codigo, String nombre,
-    int edad, boolean comoMeCae){
-        try {      
+            int edad, boolean comoMeCae) {
+        try {
             Statement statement = conexion.createStatement();
-            String consulta = "INSERT INTO public.estudiantes("+
-                "nombre, edad, como_me_cae, codigo)" +
-                "VALUES ('"+nombre+"', "+edad+", "+comoMeCae+", '"+codigo+"');";
+            String consulta = "INSERT INTO public.estudiantes(" +
+                    "nombre, edad, como_me_cae, codigo)" +
+                    "VALUES ('" + nombre + "', " + edad + ", " + comoMeCae + ", '" + codigo + "');";
             statement.executeUpdate(consulta);
-                    
+
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }        
+        }
     }
 
     public void actualizar(String codigo, String nombre,
-    int edad, boolean comoMeCae){
+            int edad, boolean comoMeCae) {
         try {
             Statement statement = conexion.createStatement();
             String consulta = "UPDATE public.estudiantes " +
-            "SET nombre='"+nombre+"', edad="+edad+", como_me_cae="+comoMeCae +
-            " WHERE codigo='"+codigo+"'";
+                    "SET nombre='" + nombre + "', edad=" + edad + ", como_me_cae=" + comoMeCae +
+                    " WHERE codigo='" + codigo + "'";
             System.out.println(consulta);
             statement.executeUpdate(consulta);
-                    
+
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-            
     }
 
-    public void eliminar(String codigo){
+    public void eliminar(String codigo) {
         try {
             Statement statement = conexion.createStatement();
             String consulta = "DELETE FROM public.estudiantes " +
-            "WHERE codigo='"+codigo+"'";
+                    "WHERE codigo='" + codigo + "'";
             System.out.println(consulta);
             statement.executeUpdate(consulta);
-                    
+
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-            
+
     }
 
 }

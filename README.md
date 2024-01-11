@@ -8,6 +8,6 @@ For this course the laguage for work was Java
 
 -  Basic Java sintax
 -  OOP paradigm review
--  Interfaces with Java Swing and AWT
+-  Graphical interfaces with Java Swing and AWT
 -  Basic CRUD with postgresql
--  Read and write Files
+-  Other Java features: Read and write files, threads, exeption handling, garbage collector usage etc.

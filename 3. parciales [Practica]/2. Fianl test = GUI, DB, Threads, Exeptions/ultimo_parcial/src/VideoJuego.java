@@ -35,20 +35,19 @@ public class VideoJuego {
     public void LeerPreciosArchivo() {
 
         try {
-            try (RandomAccessFile archivo = new RandomAccessFile("costo_Videouego.txt", "r")) {
+            try (RandomAccessFile archivo = new RandomAccessFile("costo.txt", "r")) {
                 String linea = "";
                 while ((linea = archivo.readLine()) != null) {
                     StringTokenizer tokens = new StringTokenizer(linea, "#");
                     // Guardando los precios en el array arrPrecios
                     VideoJuego.costoAlquilar = Integer.parseInt(tokens.nextToken());
                     VideoJuego.costoComprar = Integer.parseInt(tokens.nextToken());
-
                 }
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
