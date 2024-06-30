@@ -1,3 +1,0 @@
-7. Crea un hilo que produzca caracteres en un array y otro que consuma de este array.
-
-Debes usar el modelo productor-consumidor.

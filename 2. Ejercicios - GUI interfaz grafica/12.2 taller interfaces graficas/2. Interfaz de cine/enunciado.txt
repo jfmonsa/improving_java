@@ -1,1 +1,0 @@
-Desarrolle una aplicación para un cine. Debo poder comprar todos los boletos que quiera, tener una lista desplegable para el formato (2,3,4D), el nombre de la película (hay al menos 5) y la franja horaria (5 opciones). A partir de esa selección debe decirle cuanto le cuesta todo a la persona
